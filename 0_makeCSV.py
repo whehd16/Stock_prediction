@@ -1,4 +1,5 @@
 import os
+#충돌검사 유발하기
 import pandas as pd
 import sys
 #Read file from dir
