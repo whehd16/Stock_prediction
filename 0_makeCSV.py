@@ -1,11 +1,11 @@
 import os
-#충돌검사 유발하기
+#충돌검사 해결
 import pandas as pd
 import sys
-#Read file from dir
-#각각 다운로드한 csv 파일을 하나로 합침
+# Read file from dir
+# 각각 다운로드한 csv 파일을 하나로 합침
 file_list = os.listdir("../data/stockData/")
-#기준이 될 csv 파일
+# 기준이 될 csv 파일
 kospiCSV = pd.read_csv('../data/stockData/코스피지수 내역.csv', thousands=',')
 kospiCSV = kospiCSV.drop('오픈', axis=1)
 kospiCSV = kospiCSV.drop('고가', axis=1)
@@ -33,7 +33,8 @@ for file in file_list:
                 target = "High"
             elif target == "저가":
                 target = "Low"
-            csv.rename(columns={csv.columns[i]: file.split(' ')[0] + '_' + target}, inplace=True)
+            csv.rename(columns={csv.columns[i]: file.split(
+                ' ')[0] + '_' + target}, inplace=True)
         kospiCSV = pd.merge(kospiCSV, csv, on='날짜', how='left')
 
     except:
@@ -42,8 +43,8 @@ for file in file_list:
 
 for i in range(len(kospiCSV['날짜'])):
     kospiCSV['날짜'][i] = kospiCSV['날짜'][i].split(' ')[0][:-1] + '-' +\
-                        kospiCSV['날짜'][i].split(' ')[1][:-1] + '-' +\
-                        kospiCSV['날짜'][i].split(' ')[2][:-1]
+        kospiCSV['날짜'][i].split(' ')[1][:-1] + '-' +\
+        kospiCSV['날짜'][i].split(' ')[2][:-1]
 
 kospiCSV.rename(columns={kospiCSV.columns[0]: 'Date'}, inplace=True)
 kospiCSV.rename(columns={kospiCSV.columns[1]: 'KOSPI_Now'}, inplace=True)
@@ -53,7 +54,7 @@ kospiCSV.rename(columns={kospiCSV.columns[1]: 'KOSPI_Now'}, inplace=True)
 
 index = len(kospiCSV)-1
 
-#2007년 1월 9일 부터 사용하기 위함
+# 2007년 1월 9일 부터 사용하기 위함
 while True:
     if kospiCSV['Date'][index] == "2007-01-09":
         break
@@ -67,7 +68,7 @@ while True:
 #     kospiCSV = kospiCSV.drop([i])
 #     i += 1
 
-#역순으로
+# 역순으로
 kospiCSV = kospiCSV.reindex(index=kospiCSV.index[::-1])
 kospiCSV.to_csv("../data/mergedData/코스피병합본.csv", index=False)
 
@@ -80,3 +81,4 @@ kospiCSV.to_csv("../data/mergedData/코스피병합본.csv", index=False)
 #             for k in range(end-1, i, -1):
 #                 kospiCSV = kospiCSV.drop([k])
 #             sys.exit(0)
+
